@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>DAM | Resources — G11 Study Vault</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: radial-gradient(circle at 10% 20%, rgba(10, 15, 28, 1) 0%, #03050b 100%);
+      color: #eef2ff;
+      line-height: 1.4;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    body.light-theme {
+      background: radial-gradient(circle at 10% 20%, #f0f4f8 0%, #d9e2ec 100%);
+      color: #1a202c;
+    }
+    body.light-theme .navbar { background: rgba(255, 255, 255, 0.9); }
+    body.light-theme .nav-links li a { color: #1e293b; }
+    body.light-theme .nav-links li a:hover, body.light-theme .nav-links li a.active { background: #ef4444; color: white; }
+    body.light-theme .resource-card { background: rgba(255, 255, 255, 0.85); border-color: rgba(239,68,68,0.3); }
+    body.light-theme .resource-card p { color: #475569; }
+    body.light-theme .resource-link { background: rgba(239,68,68,0.15); color: #b91c1c; }
+    body.light-theme .new-footer { background: #e2e8f0; }
+    body.light-theme .footer-flex a { color: #334155; }
+    body.light-theme .page-header h1 { background: linear-gradient(145deg, #ef4444, #b91c1c); -webkit-background-clip: text; background-clip: text; }
+    body.light-theme .page-header p { color: #475569; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    body.light-theme ::-webkit-scrollbar-track { background: #cbd5e1; }
+    ::-webkit-scrollbar-thumb { background: #ef4444; border-radius: 10px; }
+    .navbar { padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; background: rgba(3,7,18,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(239,68,68,0.3); transition: background 0.3s ease; }
+    .nav-container { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .logo-area { display: flex; align-items: center; gap: 12px; }
+    .dam-badge { background: linear-gradient(145deg, #ef4444, #b91c1c); width: 48px; height: 48px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 800; color: white; box-shadow: 0 0 12px rgba(239,68,68,0.5); }
+    .logo-text { font-weight: 700; font-size: 1.7rem; letter-spacing: -0.5px; background: linear-gradient(135deg, #fff, #ef4444); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .logo-text span { color: #ef4444; background: none; }
+    .nav-links { display: flex; flex-wrap: wrap; gap: 0.4rem; list-style: none; align-items: center; }
+    .nav-links li a { text-decoration: none; padding: 0.5rem 1rem; border-radius: 40px; font-weight: 500; font-size: 0.85rem; color: #cbd5e6; transition: 0.2s; display: flex; align-items: center; gap: 6px; }
+    .nav-links li a i { font-size: 0.9rem; }
+    .nav-links li a:hover, .nav-links li a.active { background: #ef4444; color: white; box-shadow: 0 4px 12px rgba(239,68,68,0.3); }
+    .theme-toggle { cursor: pointer; background: rgba(239,68,68,0.2); border-radius: 40px; padding: 0.5rem 1rem; margin-left: 0.5rem; }
+    .theme-toggle:hover { background: #ef4444; }
+    .main-container { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
+    .page-header { text-align: center; margin-bottom: 2.5rem; }
+    .page-header h1 { font-size: 2.5rem; font-weight: 700; background: linear-gradient(145deg, #fff, #fca5a5); -webkit-background-clip: text; background-clip: text; color: transparent; display: inline-flex; align-items: center; gap: 12px; }
+    .page-header p { color: #9ca3af; margin-top: 8px; font-size: 1rem; }
+    .resources-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.8rem; margin-bottom: 2rem; }
+    .resource-card { background: rgba(18,25,45,0.65); backdrop-filter: blur(12px); border: 1px solid rgba(239,68,68,0.25); border-radius: 2rem; padding: 1.8rem 1.5rem; text-align: center; transition: all 0.25s ease; }
+    .resource-card:hover { transform: translateY(-6px); border-color: #ef4444; background: rgba(25,35,60,0.8); box-shadow: 0 20px 25px -12px rgba(0,0,0,0.4); }
+    .resource-icon { font-size: 2.5rem; color: #ef4444; margin-bottom: 1rem; }
+    .resource-card h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: #facc15; }
+    .resource-card p { font-size: 0.8rem; color: #cbd5e6; margin-bottom: 1.5rem; }
+    .resource-link { display: inline-flex; align-items: center; gap: 8px; background: rgba(239,68,68,0.15); border: 1px solid #ef4444; padding: 0.6rem 1.8rem; border-radius: 60px; text-decoration: none; font-weight: 600; color: white; transition: 0.2s; }
+    .resource-link:hover { background: #ef4444; color: white; transform: scale(1.02); box-shadow: 0 0 12px rgba(239,68,68,0.4); }
+    .new-footer { margin-top: 3rem; background: #03050b; border-top: 1px solid #ef444430; padding: 2rem 2rem 1.5rem; transition: background 0.3s ease; }
+    .footer-flex { max-width: 1400px; margin: auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; }
+    .footer-flex a { color: #94a3b8; text-decoration: none; font-size: 0.8rem; }
+    .footer-flex a:hover { color: #ef4444; }
+    .copyright { text-align: center; margin-top: 2rem; font-size: 0.7rem; border-top: 1px solid #1e293b; padding-top: 1rem; }
+    @media (max-width: 700px) { .nav-container { flex-direction: column; } .page-header h1 { font-size: 1.8rem; } .resources-grid { gap: 1rem; } }
+  </style>
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="logo-area"><div class="dam-badge">D</div><div class="logo-text">DAM<span>//G11</span></div></div>
+    <ul class="nav-links">
+      <li><a href="home.html"><i class="fas fa-cube"></i> Home</a></li>
+      <li><a href="timetable.html"><i class="fas fa-calendar-week"></i> Timetable</a></li>
+      <li><a href="classmates.html"><i class="fas fa-users"></i> Classmates</a></li>
+      <li><a href="resource.html" class="active"><i class="fas fa-database"></i> Resources</a></li>
+      <li><a href="sgpa.html"><i class="fas fa-chart-simple"></i> SGPA</a></li>
+      <li><a href="attandance.html"><i class="fas fa-percent"></i> Attendance</a></li>
+      <li><a href="poll.html"><i class="fas fa-calendar-check"></i> Poll</a></li>
+      <li><a href="settings.html"><i class="fas fa-sliders-h"></i> Settings</a></li>
+      <li><a href="#" id="themeToggle" class="theme-toggle"><i class="fas fa-moon"></i></a></li>
+    </ul>
+  </div>
+</nav>
+<main class="main-container">
+  <div class="page-header"><h1><i class="fas fa-folder-open" style="color:#ef4444;"></i> Resource Vault</h1><p>One‑stop access to subject notes, drive links & study material — curated for G11</p></div>
+  <div class="resources-grid">
+    <div class="resource-card"><div class="resource-icon"><i class="fas fa-code"></i></div><h2>FCP</h2><p>Fundamentals of Computer Programming • Notes, slides, lab manuals</p><a href="https://drive.google.com/drive/folders/1CVBvzg4PQ1AcFbzJPTDpRHxQVpniKRQS" target="_blank" class="resource-link"><i class="fab fa-google-drive"></i> Access FCP</a></div>
+    <div class="resource-card"><div class="resource-icon"><i class="fas fa-file-invoice-dollar"></i></div><h2>FEE</h2><p>Front End Engineering • Projects, references, video guides</p><a href="https://drive.google.com/drive/folders/1IYNcZtICHPSz3I2Gc60X5aQ7wXkqz-sc" target="_blank" class="resource-link"><i class="fab fa-google-drive"></i> Access FEE</a></div>
+    <div class="resource-card"><div class="resource-icon"><i class="fas fa-chart-line"></i></div><h2>FAA</h2><p>Financial & Analytical Accounting • Case studies, excel resources</p><a href="https://drive.google.com/drive/folders/1qFDGQdv5_pnxd_oJ-OSd4KbB7IrKgAe-" target="_blank" class="resource-link"><i class="fab fa-google-drive"></i> Access FAA</a></div>
+    <div class="resource-card"><div class="resource-icon"><i class="fas fa-chart-pie"></i></div><h2>DM</h2><p>Discrete Mathematics • Proofs, graph theory, practice sets</p><a href="https://drive.google.com/drive/folders/10HbtQTq92Erkh_xzwPPkC36CWJFQtYgj" target="_blank" class="resource-link"><i class="fab fa-google-drive"></i> Access DM</a></div>
+    <div class="resource-card"><div class="resource-icon"><i class="fab fa-linux"></i></div><h2>OS & Linux</h2><p>Operating Systems, shell scripting, process management</p><a href="https://drive.google.com/drive/folders/1HSPH3XsOI-QcpTvyftONT1xPAiMCv6uC" target="_blank" class="resource-link"><i class="fab fa-google-drive"></i> Access OS</a></div>
+    <div class="resource-card"><div class="resource-icon"><i class="fas fa-chalkboard-user"></i></div><h2>CHO'S</h2><p>Mentorship & career resources • soft skills, placement prep</p><a href="https://drive.google.com/drive/folders/1QisXdGAiKlN8Hw0dH6mgR0G7a-RmQOqJ" target="_blank" class="resource-link"><i class="fab fa-google-drive"></i> Access CHO'S</a></div>
+  </div>
+</main>
+<footer class="new-footer"><div class="footer-flex"><div><h3 style="display:flex; align-items:center; gap:8px;"><span style="background:#ef4444; width:32px; height:32px; display:inline-flex; align-items:center; justify-content:center; border-radius:12px;">D</span> DAM | G11 Nexus</h3><p style="font-size:0.8rem; opacity:0.7;">Data & Analytics Minds — knowledge repository</p></div><div style="display:flex; gap:2rem;"><ul style="list-style:none;"><li><a href="timetable.html">Schedule</a></li><li><a href="Events.html">Events</a></li></ul><ul style="list-style:none;"><li><a href="settings.html">Settings</a></li><li><a href="classmates.html">Classmates</a></li></ul></div></div><div class="copyright">Built with innovation & passion • 2026 DAM Social Hub • all rights reserved</div></footer>
+<script>
+  function initTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const body = document.body;
+    const toggleBtn = document.getElementById('themeToggle');
+    if (savedTheme === 'light') { body.classList.add('light-theme'); toggleBtn.innerHTML = '<i class="fas fa-sun"></i>'; }
+    else { body.classList.remove('light-theme'); toggleBtn.innerHTML = '<i class="fas fa-moon"></i>'; }
+  }
+  function toggleTheme() {
+    const body = document.body;
+    const toggleBtn = document.getElementById('themeToggle');
+    if (body.classList.contains('light-theme')) { body.classList.remove('light-theme'); localStorage.setItem('theme', 'dark'); toggleBtn.innerHTML = '<i class="fas fa-moon"></i>'; }
+    else { body.classList.add('light-theme'); localStorage.setItem('theme', 'light'); toggleBtn.innerHTML = '<i class="fas fa-sun"></i>'; }
+  }
+  document.addEventListener('DOMContentLoaded', () => { initTheme(); document.getElementById('themeToggle').addEventListener('click', (e) => { e.preventDefault(); toggleTheme(); }); });
+</script>
+</body>
+</html>

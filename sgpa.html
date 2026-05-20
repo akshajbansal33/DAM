@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>DAM | SGPA Calculator — G11 Grade Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: radial-gradient(circle at 10% 20%, rgba(10, 15, 28, 1) 0%, #03050b 100%);
+      color: #eef2ff;
+      line-height: 1.4;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    body.light-theme {
+      background: radial-gradient(circle at 10% 20%, #f0f4f8 0%, #d9e2ec 100%);
+      color: #1a202c;
+    }
+    body.light-theme .navbar { background: rgba(255, 255, 255, 0.9); }
+    body.light-theme .nav-links li a { color: #1e293b; }
+    body.light-theme .nav-links li a:hover, body.light-theme .nav-links li a.active { background: #ef4444; color: white; }
+    body.light-theme .summary-sticky { background: rgba(255, 255, 255, 0.85); border-color: rgba(239,68,68,0.4); }
+    body.light-theme .subject-card { background: rgba(255, 255, 255, 0.85); border-color: rgba(239,68,68,0.3); }
+    body.light-theme .input-item { background: rgba(240, 240, 250, 0.8); border-color: rgba(239,68,68,0.2); }
+    body.light-theme .input-item input { color: #1e293b; }
+    body.light-theme .input-item label { color: #475569; }
+    body.light-theme .subject-result { background: rgba(0,0,0,0.05); color: #1e293b; }
+    body.light-theme .new-footer { background: #e2e8f0; }
+    body.light-theme .footer-flex a { color: #334155; }
+    body.light-theme .page-header h1 { background: linear-gradient(145deg, #ef4444, #b91c1c); -webkit-background-clip: text; background-clip: text; }
+    body.light-theme .page-header p { color: #475569; }
+    body.light-theme .subject-header .credits { background: #e2e8f0; color: #b91c1c; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    body.light-theme ::-webkit-scrollbar-track { background: #cbd5e1; }
+    ::-webkit-scrollbar-thumb { background: #ef4444; border-radius: 10px; }
+    .navbar { padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; background: rgba(3,7,18,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(239,68,68,0.3); transition: background 0.3s ease; }
+    .nav-container { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .logo-area { display: flex; align-items: center; gap: 12px; }
+    .dam-badge { background: linear-gradient(145deg, #ef4444, #b91c1c); width: 48px; height: 48px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 800; color: white; box-shadow: 0 0 12px rgba(239,68,68,0.5); }
+    .logo-text { font-weight: 700; font-size: 1.7rem; letter-spacing: -0.5px; background: linear-gradient(135deg, #fff, #ef4444); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .logo-text span { color: #ef4444; background: none; }
+    .nav-links { display: flex; flex-wrap: wrap; gap: 0.4rem; list-style: none; align-items: center; }
+    .nav-links li a { text-decoration: none; padding: 0.5rem 1rem; border-radius: 40px; font-weight: 500; font-size: 0.85rem; color: #cbd5e6; transition: 0.2s; display: flex; align-items: center; gap: 6px; }
+    .nav-links li a i { font-size: 0.9rem; }
+    .nav-links li a:hover, .nav-links li a.active { background: #ef4444; color: white; box-shadow: 0 4px 12px rgba(239,68,68,0.3); }
+    .theme-toggle { cursor: pointer; background: rgba(239,68,68,0.2); border-radius: 40px; padding: 0.5rem 1rem; margin-left: 0.5rem; }
+    .theme-toggle:hover { background: #ef4444; }
+    .main-container { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
+    .page-header { margin-bottom: 2rem; text-align: center; }
+    .page-header h1 { font-size: 2.3rem; font-weight: 700; background: linear-gradient(145deg, #fff, #fca5a5); -webkit-background-clip: text; background-clip: text; color: transparent; display: inline-flex; align-items: center; gap: 12px; }
+    .page-header p { color: #9ca3af; margin-top: 6px; }
+    .summary-sticky { position: sticky; top: 1rem; z-index: 20; background: rgba(18,25,45,0.8); backdrop-filter: blur(16px); border: 1px solid rgba(239,68,68,0.4); border-radius: 2rem; padding: 1rem 1.8rem; margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .sgpa-block { display: flex; align-items: baseline; gap: 12px; }
+    .sgpa-label { font-size: 0.9rem; color: #cbd5e6; }
+    .sgpa-value { font-size: 2.8rem; font-weight: 800; background: linear-gradient(135deg, #fff, #f87171); -webkit-background-clip: text; background-clip: text; color: transparent; line-height: 1; }
+    .credit-badge { background: rgba(239,68,68,0.2); padding: 0.5rem 1rem; border-radius: 60px; font-size: 0.85rem; border: 1px solid #ef4444; }
+    .subject-card { background: rgba(18,25,45,0.65); backdrop-filter: blur(12px); border: 1px solid rgba(239,68,68,0.25); border-radius: 1.8rem; padding: 1.5rem; margin-bottom: 1.5rem; transition: 0.2s; }
+    .subject-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(239,68,68,0.3); }
+    .subject-header h2 { font-size: 1.2rem; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .credits { background: #0f172a; padding: 4px 12px; border-radius: 60px; font-size: 0.7rem; font-weight: 500; color: #facc15; }
+    .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.8rem; margin-bottom: 1rem; }
+    .input-item { background: rgba(10,15,28,0.7); border-radius: 1.2rem; padding: 0.6rem 1rem; border: 1px solid rgba(239,68,68,0.2); }
+    .input-item label { display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; color: #9ca3af; margin-bottom: 4px; }
+    .input-item input { width: 100%; background: transparent; border: none; font-size: 1.3rem; font-weight: 600; color: white; font-family: 'Space Grotesk', monospace; outline: none; }
+    .subject-result { background: rgba(0,0,0,0.3); border-radius: 1rem; padding: 0.6rem 1rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem; font-size: 0.8rem; color: #cbd5e6; margin-top: 0.5rem; }
+    .subject-result span strong { color: #facc15; font-weight: 700; }
+    .new-footer { margin-top: 3rem; background: #03050b; border-top: 1px solid #ef444430; padding: 2rem 2rem 1.5rem; transition: background 0.3s ease; }
+    .footer-flex { max-width: 1400px; margin: auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; }
+    .footer-flex a { color: #94a3b8; text-decoration: none; font-size: 0.8rem; }
+    .footer-flex a:hover { color: #ef4444; }
+    .copyright { text-align: center; margin-top: 2rem; font-size: 0.7rem; border-top: 1px solid #1e293b; padding-top: 1rem; }
+    @media (max-width: 700px) { .nav-container { flex-direction: column; } .summary-sticky { flex-direction: column; align-items: flex-start; } .sgpa-value { font-size: 2rem; } .page-header h1 { font-size: 1.8rem; } }
+    input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { opacity: 0.5; }
+  </style>
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="logo-area"><div class="dam-badge">D</div><div class="logo-text">DAM<span>//G11</span></div></div>
+    <ul class="nav-links">
+      <li><a href="home.html"><i class="fas fa-cube"></i> Home</a></li>
+      <li><a href="timetable.html"><i class="fas fa-calendar-week"></i> Timetable</a></li>
+      <li><a href="classmates.html"><i class="fas fa-users"></i> Classmates</a></li>
+      <li><a href="resource.html"><i class="fas fa-database"></i> Resources</a></li>
+      <li><a href="sgpa.html" class="active"><i class="fas fa-chart-simple"></i> SGPA</a></li>
+      <li><a href="attandance.html"><i class="fas fa-percent"></i> Attendance</a></li>
+      <li><a href="poll.html"><i class="fas fa-calendar-check"></i> Poll</a></li>
+      <li><a href="settings.html"><i class="fas fa-sliders-h"></i> Settings</a></li>
+      <li><a href="#" id="themeToggle" class="theme-toggle"><i class="fas fa-moon"></i></a></li>
+    </ul>
+  </div>
+</nav>
+<main class="main-container">
+  <div class="page-header"><h1><i class="fas fa-calculator" style="color:#ef4444;"></i> SGPA Estimator</h1><p>Enter marks for each component → real-time grade points & final SGPA</p></div>
+  <div class="summary-sticky"><div class="sgpa-block"><span class="sgpa-label"><i class="fas fa-chart-line"></i> Estimated SGPA</span><span class="sgpa-value" id="final-sgpa">0.00</span></div><div class="credit-badge"><i class="fas fa-certificate"></i> Total Credits: 20</div></div>
+  <!-- FCP -->
+  <div class="subject-card"><div class="subject-header"><h2><i class="fas fa-code"></i> FCP</h2><span class="credits">4 Credits</span></div><div class="input-grid"><div class="input-item"><label>ST1 (max 30)</label><input type="number" id="fcp_st1" max="30" value="0" oninput="updateSGPA()"></div><div class="input-item"><label>ST2 (max 30)</label><input type="number" id="fcp_st2" max="30" value="0" oninput="updateSGPA()"></div><div class="input-item"><label>Assessment (max 20)</label><input type="number" id="fcp_ass" max="20" value="0" oninput="updateSGPA()"></div><div class="input-item"><label>End Term (max 50)</label><input type="number" id="fcp_end" max="50" value="0" oninput="updateSGPA()"></div></div><div class="subject-result"><span>📐 Avg(ST1,ST2) + Ass. + EndTerm</span><span>Total: <strong id="fcp_total">0.0</strong> /100 &nbsp;|&nbsp; GP: <strong id="fcp_gp">0.0</strong></span></div></div>
+  <!-- DM -->
+  <div class="subject-card"><div class="subject-header"><h2><i class="fas fa-chart-pie"></i> DM</h2><span class="credits">3 Credits</span></div><div class="input-grid"><div class="input-item"><label>Written Exam (max 100)</label><input type="number" id="dm_written" max="100" value="0" oninput="updateSGPA()"></div><div class="input-item"><label>End Term (max 20)</label><input type="number" id="dm_end" max="20" value="0" oninput="updateSGPA()"></div></div><div class="subject-result"><span>📐 (Written ×80%) + End Term</span><span>Total: <strong id="dm_total">0.0</strong> /100 &nbsp;|&nbsp; GP: <strong id="dm_gp">0.0</strong></span></div></div>
+  <!-- OS -->
+  <div class="subject-card"><div class="subject-header"><h2><i class="fas fa-laptop-code"></i> OS & Linux</h2><span class="credits">3 Credits</span></div><div class="input-grid"><div class="input-item"><label>ST1 (max 40)</label><input type="number" id="os_st1" max="40" value="0" oninput="updateSGPA()"></div><div class="input-item"><label>ST2 (max 40)</label><input type="number" id="os_st2" max="40" value="0" oninput="updateSGPA()"></div><div class="input-item"><label>Viva (max 10)</label><input type="number" id="os_viva" max="10" value="0" oninput="updateSGPA()"></div><div class="input-item"><label>End Term (max 50)</label><input type="number" id="os_end" max="50" value="0" oninput="updateSGPA()"></div></div><div class="subject-result"><span>📐 Avg(ST1,ST2) + Viva + EndTerm</span><span>Total: <strong id="os_total">0.0</strong> /100 &nbsp;|&nbsp; GP: <strong id="os_gp">0.0</strong></span></div></div>
+  <!-- FEE -->
+  <div class="subject-card"><div class="subject-header"><h2><i class="fas fa-file-invoice-dollar"></i> FEE</h2><span class="credits">3 Credits</span></div><div class="input-grid"><div class="input-item"><label>ST1 (max 30)</label><input type="number" id="fee_st1" max="30" value="0" oninput="updateSGPA()"></div><div class="input-item"><label>ST2 (max 30)</label><input type="number" id="fee_st2" max="30" value="0" oninput="updateSGPA()"></div><div class="input-item"><label>Project 1 (max 20)</label><input type="number" id="fee_p1" max="20" value="0" oninput="updateSGPA()"></div><div class="input-item"><label>Project 2 (max 30)</label><input type="number" id="fee_p2" max="30" value="0" oninput="updateSGPA()"></div></div><div class="subject-result"><span>📐 STs 50% + Proj1 20% + Proj2 30%</span><span>Total: <strong id="fee_total">0.0</strong> /100 &nbsp;|&nbsp; GP: <strong id="fee_gp">0.0</strong></span></div></div>
+  <!-- FAA -->
+  <div class="subject-card"><div class="subject-header"><h2><i class="fas fa-chart-line"></i> FAA</h2><span class="credits">3 Credits</span></div><div class="input-grid"><div class="input-item"><label>ST1 (max 40)</label><input type="number" id="faa_st1" max="40" value="0" oninput="updateSGPA()"></div><div class="input-item"><label>ST2 (max 40)</label><input type="number" id="faa_st2" max="40" value="0" oninput="updateSGPA()"></div><div class="input-item"><label>Azure (max 20)</label><input type="number" id="faa_az" max="20" value="0" oninput="updateSGPA()"></div><div class="input-item"><label>End Term (max 50)</label><input type="number" id="faa_end" max="50" value="0" oninput="updateSGPA()"></div></div><div class="subject-result"><span>📐 STs 30% + Azure 20% + EndTerm 50%</span><span>Total: <strong id="faa_total">0.0</strong> /100 &nbsp;|&nbsp; GP: <strong id="faa_gp">0.0</strong></span></div></div>
+  <!-- IKS -->
+  <div class="subject-card"><div class="subject-header"><h2><i class="fas fa-landmark"></i> IKS</h2><span class="credits">2 Credits</span></div><div class="input-grid"><div class="input-item"><label>End Term (max 70)</label><input type="number" id="iks_end" max="70" value="0" oninput="updateSGPA()"></div><div class="input-item"><label>Assignment (max 30)</label><input type="number" id="iks_ass" max="30" value="0" oninput="updateSGPA()"></div></div><div class="subject-result"><span>📐 End Term + Assignment</span><span>Total: <strong id="iks_total">0.0</strong> /100 &nbsp;|&nbsp; GP: <strong id="iks_gp">0.0</strong></span></div></div>
+  <!-- EVS -->
+  <div class="subject-card"><div class="subject-header"><h2><i class="fas fa-leaf"></i> EVS</h2><span class="credits">2 Credits</span></div><div class="input-grid"><div class="input-item"><label>End Term (max 70)</label><input type="number" id="evs_end" max="70" value="0" oninput="updateSGPA()"></div><div class="input-item"><label>Assignment (max 30)</label><input type="number" id="evs_ass" max="30" value="0" oninput="updateSGPA()"></div></div><div class="subject-result"><span>📐 End Term + Assignment</span><span>Total: <strong id="evs_total">0.0</strong> /100 &nbsp;|&nbsp; GP: <strong id="evs_gp">0.0</strong></span></div></div>
+</main>
+<footer class="new-footer"><div class="footer-flex"><div><h3 style="display:flex; align-items:center; gap:8px;"><span style="background:#ef4444; width:32px; height:32px; display:inline-flex; align-items:center; justify-content:center; border-radius:12px;">D</span> DAM | G11 Nexus</h3><p style="font-size:0.8rem; opacity:0.7;">Data & Analytics Minds — precision grade analysis</p></div><div style="display:flex; gap:2rem;"><ul style="list-style:none;"><li><a href="timetable.html">Schedule</a></li><li><a href="Events.html">Events</a></li></ul><ul style="list-style:none;"><li><a href="settings.html">Settings</a></li><li><a href="classmates.html">Classmates</a></li></ul></div></div><div class="copyright">Built with innovation & passion • 2026 DAM Social Hub • all rights reserved</div></footer>
+<script>
+  function getVal(id, maxLimit) { let val = parseFloat(document.getElementById(id).value) || 0; if (isNaN(val)) val = 0; return val > maxLimit ? maxLimit : val; }
+  function getGradePoint(marks) { if (marks >= 80) return 10.0; if (marks >= 70) return 9.0 + (marks - 70) * 0.1; if (marks >= 60) return 8.0 + (marks - 60) * 0.1; if (marks >= 50) return 7.0 + (marks - 50) * 0.1; if (marks >= 40) return 6.0 + (marks - 40) * 0.1; if (marks >= 30) return 5.0 + (marks - 30) * 0.1; return 0.0; }
+  function updateSubjectUI(subjectId, total, gp) { document.getElementById(subjectId + '_total').innerText = total.toFixed(1); document.getElementById(subjectId + '_gp').innerText = gp.toFixed(1); }
+  function updateSGPA() {
+    let totalWeighted = 0;
+    const totalCredits = 20;
+    // FCP
+    let fcpSt1 = getVal('fcp_st1',30), fcpSt2 = getVal('fcp_st2',30), fcpAss = getVal('fcp_ass',20), fcpEnd = getVal('fcp_end',50);
+    let fcpTotal = ((fcpSt1+fcpSt2)/2) + fcpAss + fcpEnd;
+    let fcpGp = getGradePoint(fcpTotal);
+    updateSubjectUI('fcp', fcpTotal, fcpGp);
+    totalWeighted += fcpGp * 4;
+    // DM
+    let dmWritten = getVal('dm_written',100), dmEnd = getVal('dm_end',20);
+    let dmTotal = (dmWritten * 0.8) + dmEnd;
+    let dmGp = getGradePoint(dmTotal);
+    updateSubjectUI('dm', dmTotal, dmGp);
+    totalWeighted += dmGp * 3;
+    // OS
+    let osSt1 = getVal('os_st1',40), osSt2 = getVal('os_st2',40), osViva = getVal('os_viva',10), osEnd = getVal('os_end',50);
+    let osTotal = ((osSt1+osSt2)/2) + osViva + osEnd;
+    let osGp = getGradePoint(osTotal);
+    updateSubjectUI('os', osTotal, osGp);
+    totalWeighted += osGp * 3;
+    // FEE
+    let feeSt1 = getVal('fee_st1',30), feeSt2 = getVal('fee_st2',30), feeP1 = getVal('fee_p1',20), feeP2 = getVal('fee_p2',30);
+    let stAvg = ((feeSt1+feeSt2)/60)*50;
+    let proj1Score = (feeP1/20)*20, proj2Score = (feeP2/30)*30;
+    let feeTotal = stAvg + proj1Score + proj2Score;
+    let feeGp = getGradePoint(feeTotal);
+    updateSubjectUI('fee', feeTotal, feeGp);
+    totalWeighted += feeGp * 3;
+    // FAA
+    let faaSt1 = getVal('faa_st1',40), faaSt2 = getVal('faa_st2',40), faaAz = getVal('faa_az',20), faaEnd = getVal('faa_end',50);
+    let faaTotal = (((faaSt1+faaSt2)/80)*30) + ((faaAz/20)*20) + ((faaEnd/50)*50);
+    let faaGp = getGradePoint(faaTotal);
+    updateSubjectUI('faa', faaTotal, faaGp);
+    totalWeighted += faaGp * 3;
+    // IKS
+    let iksEnd = getVal('iks_end',70), iksAss = getVal('iks_ass',30);
+    let iksTotal = iksEnd + iksAss;
+    let iksGp = getGradePoint(iksTotal);
+    updateSubjectUI('iks', iksTotal, iksGp);
+    totalWeighted += iksGp * 2;
+    // EVS
+    let evsEnd = getVal('evs_end',70), evsAss = getVal('evs_ass',30);
+    let evsTotal = evsEnd + evsAss;
+    let evsGp = getGradePoint(evsTotal);
+    updateSubjectUI('evs', evsTotal, evsGp);
+    totalWeighted += evsGp * 2;
+    let sgpa = totalWeighted / totalCredits;
+    document.getElementById('final-sgpa').innerText = sgpa.toFixed(2);
+  }
+  function initTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const body = document.body;
+    const toggleBtn = document.getElementById('themeToggle');
+    if (savedTheme === 'light') { body.classList.add('light-theme'); toggleBtn.innerHTML = '<i class="fas fa-sun"></i>'; }
+    else { body.classList.remove('light-theme'); toggleBtn.innerHTML = '<i class="fas fa-moon"></i>'; }
+  }
+  function toggleTheme() {
+    const body = document.body;
+    const toggleBtn = document.getElementById('themeToggle');
+    if (body.classList.contains('light-theme')) { body.classList.remove('light-theme'); localStorage.setItem('theme', 'dark'); toggleBtn.innerHTML = '<i class="fas fa-moon"></i>'; }
+    else { body.classList.add('light-theme'); localStorage.setItem('theme', 'light'); toggleBtn.innerHTML = '<i class="fas fa-sun"></i>'; }
+  }
+  document.addEventListener('DOMContentLoaded', () => { initTheme(); document.getElementById('themeToggle').addEventListener('click', (e) => { e.preventDefault(); toggleTheme(); }); updateSGPA(); });
+</script>
+</body>
+</html>

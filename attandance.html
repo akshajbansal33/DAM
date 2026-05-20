@@ -1,0 +1,1251 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>DAM | Attendance Tracker — G11 Analytics</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: radial-gradient(circle at 10% 20%, rgba(10, 15, 28, 1) 0%, #03050b 100%);
+      color: #eef2ff;
+      line-height: 1.4;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #ef4444;
+      border-radius: 10px;
+    }
+
+    /* navbar (identical to DAM theme) */
+    .navbar {
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(3, 7, 18, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .dam-badge {
+      background: linear-gradient(145deg, #ef4444, #b91c1c);
+      width: 48px;
+      height: 48px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: white;
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.5);
+    }
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.7rem;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #fff, #ef4444);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .logo-text span {
+      color: #ef4444;
+      background: none;
+      background-clip: unset;
+    }
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      list-style: none;
+    }
+    .nav-links li a {
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 40px;
+      font-weight: 500;
+      font-size: 0.85rem;
+      color: #cbd5e6;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-links li a i {
+      font-size: 0.9rem;
+    }
+    .nav-links li a:hover, .nav-links li a.active {
+      background: #ef4444;
+      color: white;
+      box-shadow: 0 4px 12px rgba(239,68,68,0.3);
+    }
+
+    /* main container */
+    .main-container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Page header */
+    .page-header {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .page-header h1 {
+      font-size: 2.3rem;
+      font-weight: 700;
+      background: linear-gradient(145deg, #fff, #fca5a5);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .page-header p {
+      color: #9ca3af;
+      margin-top: 8px;
+    }
+
+    /* glass card base */
+    .glass-card {
+      background: rgba(18, 25, 45, 0.65);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      border-radius: 2rem;
+      transition: all 0.2s ease;
+    }
+
+    /* input grid */
+    .input-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.8rem;
+    }
+    .input-item {
+      background: rgba(10, 15, 28, 0.7);
+      border-radius: 1.5rem;
+      padding: 1rem 1.2rem;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+    .input-item label {
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #9ca3af;
+      margin-bottom: 6px;
+    }
+    .input-item input, .input-item select {
+      width: 100%;
+      background: transparent;
+      border: none;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: white;
+      font-family: 'Space Grotesk', monospace;
+      outline: none;
+    }
+    .input-item select {
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    .input-item input[readonly] {
+      color: #facc15;
+      opacity: 0.9;
+    }
+
+    /* summary card (attendance circle + bar) */
+    .summary-card {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.5rem;
+      margin-bottom: 1.8rem;
+    }
+    .pct-block {
+      text-align: center;
+      min-width: 120px;
+    }
+    .pct-block p {
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+    .pct-block span {
+      font-size: 3.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff, #ef4444);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .bar-block {
+      flex: 2;
+      min-width: 180px;
+    }
+    .bar-track {
+      height: 12px;
+      background: #1e293b;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      width: 0%;
+      background: #ef4444;
+      border-radius: 99px;
+      transition: width 0.3s ease;
+    }
+    .bar-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 6px;
+      font-size: 0.7rem;
+      color: #94a3b8;
+    }
+    .badge {
+      padding: 6px 20px;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      white-space: nowrap;
+    }
+    .badge.on-track { background: #1d9e7540; color: #4ade80; border: 1px solid #4ade80; }
+    .badge.improve { background: #ef9f2740; color: #fbbf24; border: 1px solid #fbbf24; }
+    .badge.at-risk { background: #e24b4a40; color: #f87171; border: 1px solid #f87171; }
+    .badge.below { background: #3b82f640; color: #60a5fa; border: 1px solid #60a5fa; }
+
+    /* stats grid (can skip, must attend) */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.8rem;
+    }
+    .stat-card {
+      background: rgba(15, 23, 42, 0.7);
+      border-radius: 1.5rem;
+      padding: 1.2rem;
+      text-align: center;
+      border: 1px solid rgba(239,68,68,0.2);
+    }
+    .stat-card p {
+      font-size: 0.75rem;
+      color: #9ca3af;
+      margin-bottom: 6px;
+    }
+    .stat-card span {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #facc15;
+    }
+
+    .message-box {
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 1.2rem;
+      padding: 1rem 1.3rem;
+      font-size: 0.9rem;
+      color: #cbd5e6;
+      border-left: 4px solid #ef4444;
+      backdrop-filter: blur(4px);
+    }
+
+    /* footer */
+    .new-footer {
+      margin-top: 3rem;
+      background: #03050b;
+      border-top: 1px solid #ef444430;
+      padding: 2rem 2rem 1.5rem;
+    }
+    .footer-flex {
+      max-width: 1400px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    .footer-flex a {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 0.8rem;
+    }
+    .footer-flex a:hover {
+      color: #ef4444;
+    }
+    .copyright {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.7rem;
+      border-top: 1px solid #1e293b;
+      padding-top: 1rem;
+    }
+
+    @media (max-width: 700px) {
+      .nav-container { flex-direction: column; }
+      .page-header h1 { font-size: 1.6rem; }
+      .summary-card { flex-direction: column; align-items: stretch; text-align: center; }
+      .badge { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="logo-area">
+      <div class="dam-badge">D</div>
+      <div class="logo-text">DAM<span>//G11</span></div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="home.html"><i class="fas fa-cube"></i> Home</a></li>
+      <li><a href="timetable.html"><i class="fas fa-calendar-week"></i> Timetable</a></li>
+      <li><a href="classmates.html"><i class="fas fa-users"></i> Classmates</a></li>
+      <li><a href="resource.html"><i class="fas fa-database"></i> Resources</a></li>
+      <li><a href="sgpa.html"><i class="fas fa-chart-simple"></i> SGPA</a></li>
+      <li><a href="attandance.html" class="active"><i class="fas fa-percent"></i> Attendance</a></li>
+      <li><a href="poll.html"><i class="fas fa-calendar-check"></i> Poll</a></li>
+      <li><a href="settings.html"><i class="fas fa-sliders-h"></i> Settings</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="main-container">
+  <div class="page-header">
+    <h1><i class="fas fa-chart-line" style="color:#ef4444;"></i> Attendance Analyzer</h1>
+    <p>Track & predict attendance · Stay above required threshold</p>
+  </div>
+
+  <div class="input-grid">
+    <div class="input-item">
+      <label><i class="fas fa-book"></i> Subject</label>
+      <select id="subject" onchange="calc()">
+        <option value="138">FCP (max 138)</option>
+        <option value="81">FEE (max 81)</option>
+        <option value="84">OS & Linux (max 84)</option>
+        <option value="49">DM (max 49)</option>
+        <option value="67">FAA (max 67)</option>
+      </select>
+    </div>
+    <div class="input-item">
+      <label><i class="fas fa-chalkboard"></i> Classes held</label>
+      <input type="number" id="total" min="0" value="60" oninput="calc()" />
+    </div>
+    <div class="input-item">
+      <label><i class="fas fa-user-check"></i> Attended</label>
+      <input type="number" id="attended" min="0" value="42" oninput="calc()" />
+    </div>
+    <div class="input-item">
+      <label><i class="fas fa-bullseye"></i> Required %</label>
+      <input type="number" id="required" min="0" max="100" value="75" oninput="calc()" />
+    </div>
+    <div class="input-item">
+      <label><i class="fas fa-hourglass-half"></i> Remaining classes</label>
+      <input type="number" id="remaining" readonly tabindex="-1" />
+    </div>
+  </div>
+
+  <div class="glass-card summary-card">
+    <div class="pct-block">
+      <p>Current attendance</p>
+      <span id="pct-display">70%</span>
+    </div>
+    <div class="bar-block">
+      <div class="bar-track">
+        <div class="bar-fill" id="bar"></div>
+      </div>
+      <div class="bar-labels">
+        <span>0%</span>
+        <span id="req-marker">Required: 75%</span>
+        <span>100%</span>
+      </div>
+    </div>
+    <div class="badge below" id="status-badge">Calculating...</div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <p><i class="fas fa-coffee"></i> Classes you can skip (remaining)</p>
+      <span id="can-skip">0</span>
+    </div>
+    <div class="stat-card">
+      <p><i class="fas fa-calendar-check"></i> Minimum to attend (remaining)</p>
+      <span id="must-attend">—</span>
+    </div>
+  </div>
+
+  <div class="message-box" id="message-box">
+    <i class="fas fa-lightbulb" style="color:#ef4444; margin-right: 8px;"></i> 
+    Enter class data to get smart projections.
+  </div>
+</main>
+
+<footer class="new-footer">
+  <div class="footer-flex">
+    <div>
+      <h3 style="display: flex; align-items: center; gap: 8px;"><span style="background:#ef4444; width: 32px; height:32px; display: inline-flex; align-items:center; justify-content:center; border-radius: 12px;">D</span> DAM | G11 Nexus</h3>
+      <p style="font-size: 0.8rem; opacity: 0.7;">Data & Analytics Minds — precision attendance planning</p>
+    </div>
+    <div style="display: flex; gap: 2rem;">
+      <ul style="list-style: none;">
+        <li><a href="timetable.html">Schedule</a></li>
+        <li><a href="Events.html">Events</a></li>
+      </ul>
+      <ul style="list-style: none;">
+        <li><a href="settings.html">Settings</a></li>
+        <li><a href="classmates.html">Classmates</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="copyright">
+    Built with innovation & passion • 2026 DAM Social Hub • all rights reserved
+  </div>
+</footer>
+
+<script>
+  function calc() {
+    // subject max limit from select
+    const subjectTotalLimit = parseInt(document.getElementById('subject').value);
+    
+    let totalHeld = parseInt(document.getElementById('total').value) || 0;
+    if (totalHeld > subjectTotalLimit) {
+      totalHeld = subjectTotalLimit;
+      document.getElementById('total').value = totalHeld;
+    }
+    
+    let attended = parseInt(document.getElementById('attended').value) || 0;
+    if (attended > totalHeld) {
+      attended = totalHeld;
+      document.getElementById('attended').value = attended;
+    }
+    
+    let required = parseInt(document.getElementById('required').value) || 75;
+    required = Math.min(100, Math.max(0, required));
+    document.getElementById('required').value = required;
+    
+    const remainingTotal = Math.max(0, subjectTotalLimit - totalHeld);
+    document.getElementById('remaining').value = remainingTotal;
+    
+    const pct = totalHeld > 0 ? Math.round((attended / totalHeld) * 100) : 0;
+    document.getElementById('pct-display').innerHTML = pct + '%';
+    document.getElementById('req-marker').innerHTML = 'Required: ' + required + '%';
+    
+    const barFill = document.getElementById('bar');
+    barFill.style.width = Math.min(100, pct) + '%';
+    
+    const grandTotal = subjectTotalLimit;
+    const minNeededRaw = (required / 100) * grandTotal - attended;
+    const minNeeded = Math.max(0, Math.ceil(minNeededRaw));
+    const canSkip = Math.max(0, remainingTotal - minNeeded);
+    
+    document.getElementById('can-skip').textContent = canSkip;
+    document.getElementById('must-attend').textContent = minNeeded > 0 ? minNeeded : 0;
+    
+    const badge = document.getElementById('status-badge');
+    const msgBox = document.getElementById('message-box');
+    
+    if (totalHeld === 0) {
+      badge.className = 'badge below';
+      badge.textContent = 'No data';
+      msgBox.innerHTML = '<i class="fas fa-chart-simple"></i> Enter total classes held to begin.';
+      barFill.style.background = '#ef4444';
+      return;
+    }
+    
+    if (pct >= required) {
+      badge.className = 'badge on-track';
+      badge.textContent = '✓ On track';
+      barFill.style.background = '#4ade80';
+      if (remainingTotal === 0) {
+        msgBox.innerHTML = `<i class="fas fa-trophy"></i> Course completed! You've met the required attendance (${pct}%). Excellent work!`;
+      } else {
+        msgBox.innerHTML = `<i class="fas fa-check-circle"></i> You are meeting the requirement (${pct}%). You can afford to skip <strong>${canSkip}</strong> of the remaining <strong>${remainingTotal}</strong> classes.`;
+      }
+    } 
+    else if (minNeeded <= remainingTotal) {
+      badge.className = 'badge improve';
+      badge.textContent = '⚠️ Needs improvement';
+      barFill.style.background = '#fbbf24';
+      msgBox.innerHTML = `<i class="fas fa-chart-line"></i> You need to attend at least <strong>${minNeeded}</strong> of the remaining <strong>${remainingTotal}</strong> classes to reach ${required}% (current: ${pct}%).`;
+    } 
+    else {
+      badge.className = 'badge at-risk';
+      badge.textContent = '🔴 At risk';
+      barFill.style.background = '#f87171';
+      msgBox.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Even attending all <strong>${remainingTotal}</strong> remaining classes, you cannot reach ${required}%. Current = ${pct}%. Please consult your instructor immediately.`;
+    }
+  }
+  
+  // initial call
+  calc();
+</script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>DAM | Attendance Tracker — G11 Analytics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: radial-gradient(circle at 10% 20%, rgba(10, 15, 28, 1) 0%, #03050b 100%);
+      color: #eef2ff;
+      line-height: 1.4;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    /* LIGHT THEME */
+    body.light-theme {
+      background: radial-gradient(circle at 10% 20%, #f0f4f8 0%, #d9e2ec 100%);
+      color: #1a202c;
+    }
+
+    body.light-theme .glass-card,
+    body.light-theme .input-item,
+    body.light-theme .stat-card,
+    body.light-theme .subject-card,
+    body.light-theme .setting-card,
+    body.light-theme .quiz-card,
+    body.light-theme .resource-card,
+    body.light-theme .table-wrapper,
+    body.light-theme .timetable-wrapper,
+    body.light-theme .poll-container,
+    body.light-theme .login-card,
+    body.light-theme .summary-sticky {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
+    body.light-theme .navbar {
+      background: rgba(255, 255, 255, 0.9);
+      border-bottom-color: rgba(239, 68, 68, 0.4);
+    }
+
+    body.light-theme .nav-links li a {
+      color: #1e293b;
+    }
+
+    body.light-theme .nav-links li a:hover,
+    body.light-theme .nav-links li a.active {
+      background: #ef4444;
+      color: white;
+    }
+
+    body.light-theme .new-footer {
+      background: #e2e8f0;
+      border-top-color: rgba(239, 68, 68, 0.3);
+    }
+
+    body.light-theme .footer-flex a {
+      color: #334155;
+    }
+
+    body.light-theme .footer-flex a:hover {
+      color: #ef4444;
+    }
+
+    body.light-theme .copyright {
+      border-top-color: #cbd5e1;
+    }
+
+    body.light-theme .input-item input,
+    body.light-theme .input-item select {
+      color: #1e293b;
+    }
+
+    body.light-theme .message-box {
+      background: rgba(0, 0, 0, 0.1);
+      color: #1e293b;
+    }
+
+    body.light-theme .badge.on-track {
+      background: #4ade8040;
+      color: #166534;
+      border-color: #166534;
+    }
+
+    body.light-theme .badge.improve {
+      background: #fbbf2440;
+      color: #92400e;
+      border-color: #b45309;
+    }
+
+    body.light-theme .badge.at-risk {
+      background: #f8717140;
+      color: #991b1b;
+      border-color: #b91c1c;
+    }
+
+    body.light-theme .badge.below {
+      background: #60a5fa40;
+      color: #1e3a8a;
+      border-color: #2563eb;
+    }
+
+    body.light-theme .stat-card p,
+    body.light-theme .input-item label {
+      color: #475569;
+    }
+
+    body.light-theme .stat-card span {
+      color: #ef4444;
+    }
+
+    body.light-theme .bar-track {
+      background: #cbd5e1;
+    }
+
+    body.light-theme .class-table th {
+      background: rgba(239, 68, 68, 0.9);
+      color: white;
+    }
+
+    body.light-theme .class-table td {
+      background: rgba(255, 255, 255, 0.7);
+      color: #1e293b;
+    }
+
+    body.light-theme .class-table tr:hover td {
+      background: rgba(239, 68, 68, 0.2);
+    }
+
+    body.light-theme .section-header td {
+      background: rgba(239, 68, 68, 0.3);
+      color: #b91c1c;
+    }
+
+    body.light-theme .timetable td {
+      background: rgba(255, 255, 255, 0.7);
+      color: #1e293b;
+    }
+
+    body.light-theme .timetable th {
+      background: #ef4444;
+    }
+
+    body.light-theme .day-column {
+      background: rgba(0, 0, 0, 0.1);
+      color: #b91c1c;
+    }
+
+    body.light-theme .break-cell {
+      background: rgba(239, 68, 68, 0.2);
+      color: #b91c1c;
+    }
+
+    body.light-theme .subject-card .subject-result {
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    body.light-theme .resource-link {
+      background: rgba(239, 68, 68, 0.15);
+      color: #b91c1c;
+    }
+
+    body.light-theme .quiz-card .quiz-badge {
+      background: rgba(239, 68, 68, 0.15);
+      color: #b91c1c;
+    }
+
+    body.light-theme .poll-container .poll-btn {
+      background: rgba(239, 68, 68, 0.1);
+      color: #1e293b;
+    }
+
+    body.light-theme .poll-container .poll-btn:hover {
+      background: #ef4444;
+      color: white;
+    }
+
+    body.light-theme .results-card {
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    body.light-theme .login-card input {
+      color: #1e293b;
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    body.light-theme ::-webkit-scrollbar-track {
+      background: #cbd5e1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #ef4444;
+      border-radius: 10px;
+    }
+
+    /* navbar */
+    .navbar {
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(3, 7, 18, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(239, 68, 68, 0.3);
+      transition: background 0.3s ease;
+    }
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .dam-badge {
+      background: linear-gradient(145deg, #ef4444, #b91c1c);
+      width: 48px;
+      height: 48px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: white;
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.5);
+    }
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.7rem;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #fff, #ef4444);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .logo-text span {
+      color: #ef4444;
+      background: none;
+      background-clip: unset;
+    }
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      list-style: none;
+      align-items: center;
+    }
+    .nav-links li a {
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 40px;
+      font-weight: 500;
+      font-size: 0.85rem;
+      color: #cbd5e6;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-links li a i {
+      font-size: 0.9rem;
+    }
+    .nav-links li a:hover, .nav-links li a.active {
+      background: #ef4444;
+      color: white;
+      box-shadow: 0 4px 12px rgba(239,68,68,0.3);
+    }
+    .theme-toggle {
+      cursor: pointer;
+      background: rgba(239, 68, 68, 0.2);
+      border-radius: 40px;
+      padding: 0.5rem 1rem;
+      margin-left: 0.5rem;
+    }
+    .theme-toggle:hover {
+      background: #ef4444;
+    }
+    .theme-toggle i {
+      font-size: 1rem;
+    }
+
+    /* main container */
+    .main-container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Page header */
+    .page-header {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .page-header h1 {
+      font-size: 2.3rem;
+      font-weight: 700;
+      background: linear-gradient(145deg, #fff, #fca5a5);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+    body.light-theme .page-header h1 {
+      background: linear-gradient(145deg, #ef4444, #b91c1c);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+    .page-header p {
+      color: #9ca3af;
+      margin-top: 8px;
+    }
+    body.light-theme .page-header p {
+      color: #475569;
+    }
+
+    /* glass card base */
+    .glass-card {
+      background: rgba(18, 25, 45, 0.65);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      border-radius: 2rem;
+      transition: all 0.2s ease;
+    }
+
+    /* input grid */
+    .input-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.8rem;
+    }
+    .input-item {
+      background: rgba(10, 15, 28, 0.7);
+      border-radius: 1.5rem;
+      padding: 1rem 1.2rem;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+    .input-item label {
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #9ca3af;
+      margin-bottom: 6px;
+    }
+    .input-item input, .input-item select {
+      width: 100%;
+      background: transparent;
+      border: none;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: white;
+      font-family: 'Space Grotesk', monospace;
+      outline: none;
+    }
+    .input-item select {
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    .input-item input[readonly] {
+      color: #facc15;
+      opacity: 0.9;
+    }
+
+    /* summary card */
+    .summary-card {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.5rem;
+      margin-bottom: 1.8rem;
+    }
+    .pct-block {
+      text-align: center;
+      min-width: 120px;
+    }
+    .pct-block p {
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+    .pct-block span {
+      font-size: 3.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff, #ef4444);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .bar-block {
+      flex: 2;
+      min-width: 180px;
+    }
+    .bar-track {
+      height: 12px;
+      background: #1e293b;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      width: 0%;
+      background: #ef4444;
+      border-radius: 99px;
+      transition: width 0.3s ease;
+    }
+    .bar-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 6px;
+      font-size: 0.7rem;
+      color: #94a3b8;
+    }
+    .badge {
+      padding: 6px 20px;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      white-space: nowrap;
+    }
+    .badge.on-track { background: #1d9e7540; color: #4ade80; border: 1px solid #4ade80; }
+    .badge.improve { background: #ef9f2740; color: #fbbf24; border: 1px solid #fbbf24; }
+    .badge.at-risk { background: #e24b4a40; color: #f87171; border: 1px solid #f87171; }
+    .badge.below { background: #3b82f640; color: #60a5fa; border: 1px solid #60a5fa; }
+
+    /* stats grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.8rem;
+    }
+    .stat-card {
+      background: rgba(15, 23, 42, 0.7);
+      border-radius: 1.5rem;
+      padding: 1.2rem;
+      text-align: center;
+      border: 1px solid rgba(239,68,68,0.2);
+    }
+    .stat-card p {
+      font-size: 0.75rem;
+      color: #9ca3af;
+      margin-bottom: 6px;
+    }
+    .stat-card span {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #facc15;
+    }
+
+    .message-box {
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 1.2rem;
+      padding: 1rem 1.3rem;
+      font-size: 0.9rem;
+      color: #cbd5e6;
+      border-left: 4px solid #ef4444;
+      backdrop-filter: blur(4px);
+    }
+
+    /* footer */
+    .new-footer {
+      margin-top: 3rem;
+      background: #03050b;
+      border-top: 1px solid #ef444430;
+      padding: 2rem 2rem 1.5rem;
+      transition: background 0.3s ease;
+    }
+    .footer-flex {
+      max-width: 1400px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    .footer-flex a {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 0.8rem;
+    }
+    .footer-flex a:hover {
+      color: #ef4444;
+    }
+    .copyright {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.7rem;
+      border-top: 1px solid #1e293b;
+      padding-top: 1rem;
+    }
+
+    @media (max-width: 700px) {
+      .nav-container { flex-direction: column; }
+      .page-header h1 { font-size: 1.6rem; }
+      .summary-card { flex-direction: column; align-items: stretch; text-align: center; }
+      .badge { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="logo-area">
+      <div class="dam-badge">D</div>
+      <div class="logo-text">DAM<span>//G11</span></div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="home.html"><i class="fas fa-cube"></i> Home</a></li>
+      <li><a href="timetable.html"><i class="fas fa-calendar-week"></i> Timetable</a></li>
+      <li><a href="classmates.html"><i class="fas fa-users"></i> Classmates</a></li>
+      <li><a href="resource.html"><i class="fas fa-database"></i> Resources</a></li>
+      <li><a href="sgpa.html"><i class="fas fa-chart-simple"></i> SGPA</a></li>
+      <li><a href="attandance.html" class="active"><i class="fas fa-percent"></i> Attendance</a></li>
+      <li><a href="poll.html"><i class="fas fa-calendar-check"></i> Poll</a></li>
+      <li><a href="settings.html"><i class="fas fa-sliders-h"></i> Settings</a></li>
+      <li><a href="#" id="themeToggle" class="theme-toggle"><i class="fas fa-moon"></i></a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="main-container">
+  <div class="page-header">
+    <h1><i class="fas fa-chart-line" style="color:#ef4444;"></i> Attendance Analyzer</h1>
+    <p>Track & predict attendance · Stay above required threshold</p>
+  </div>
+
+  <div class="input-grid">
+    <div class="input-item">
+      <label><i class="fas fa-book"></i> Subject</label>
+      <select id="subject" onchange="calc()">
+        <option value="138">FCP (max 138)</option>
+        <option value="81">FEE (max 81)</option>
+        <option value="84">OS & Linux (max 84)</option>
+        <option value="49">DM (max 49)</option>
+        <option value="67">FAA (max 67)</option>
+      </select>
+    </div>
+    <div class="input-item">
+      <label><i class="fas fa-chalkboard"></i> Classes held</label>
+      <input type="number" id="total" min="0" value="60" oninput="calc()" />
+    </div>
+    <div class="input-item">
+      <label><i class="fas fa-user-check"></i> Attended</label>
+      <input type="number" id="attended" min="0" value="42" oninput="calc()" />
+    </div>
+    <div class="input-item">
+      <label><i class="fas fa-bullseye"></i> Required %</label>
+      <input type="number" id="required" min="0" max="100" value="75" oninput="calc()" />
+    </div>
+    <div class="input-item">
+      <label><i class="fas fa-hourglass-half"></i> Remaining classes</label>
+      <input type="number" id="remaining" readonly tabindex="-1" />
+    </div>
+  </div>
+
+  <div class="glass-card summary-card">
+    <div class="pct-block">
+      <p>Current attendance</p>
+      <span id="pct-display">70%</span>
+    </div>
+    <div class="bar-block">
+      <div class="bar-track">
+        <div class="bar-fill" id="bar"></div>
+      </div>
+      <div class="bar-labels">
+        <span>0%</span>
+        <span id="req-marker">Required: 75%</span>
+        <span>100%</span>
+      </div>
+    </div>
+    <div class="badge below" id="status-badge">Calculating...</div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <p><i class="fas fa-coffee"></i> Classes you can skip (remaining)</p>
+      <span id="can-skip">0</span>
+    </div>
+    <div class="stat-card">
+      <p><i class="fas fa-calendar-check"></i> Minimum to attend (remaining)</p>
+      <span id="must-attend">—</span>
+    </div>
+  </div>
+
+  <div class="message-box" id="message-box">
+    <i class="fas fa-lightbulb" style="color:#ef4444; margin-right: 8px;"></i> 
+    Enter class data to get smart projections.
+  </div>
+</main>
+
+<footer class="new-footer">
+  <div class="footer-flex">
+    <div>
+      <h3 style="display: flex; align-items: center; gap: 8px;"><span style="background:#ef4444; width: 32px; height:32px; display: inline-flex; align-items:center; justify-content:center; border-radius: 12px;">D</span> DAM | G11 Nexus</h3>
+      <p style="font-size: 0.8rem; opacity: 0.7;">Data & Analytics Minds — precision attendance planning</p>
+    </div>
+    <div style="display: flex; gap: 2rem;">
+      <ul style="list-style: none;">
+        <li><a href="timetable.html">Schedule</a></li>
+        <li><a href="Events.html">Events</a></li>
+      </ul>
+      <ul style="list-style: none;">
+        <li><a href="settings.html">Settings</a></li>
+        <li><a href="classmates.html">Classmates</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="copyright">
+    Built with innovation & passion • 2026 DAM Social Hub • all rights reserved
+  </div>
+</footer>
+
+<script>
+  function calc() {
+    const subjectTotalLimit = parseInt(document.getElementById('subject').value);
+    let totalHeld = parseInt(document.getElementById('total').value) || 0;
+    if (totalHeld > subjectTotalLimit) {
+      totalHeld = subjectTotalLimit;
+      document.getElementById('total').value = totalHeld;
+    }
+    let attended = parseInt(document.getElementById('attended').value) || 0;
+    if (attended > totalHeld) {
+      attended = totalHeld;
+      document.getElementById('attended').value = attended;
+    }
+    let required = parseInt(document.getElementById('required').value) || 75;
+    required = Math.min(100, Math.max(0, required));
+    document.getElementById('required').value = required;
+    const remainingTotal = Math.max(0, subjectTotalLimit - totalHeld);
+    document.getElementById('remaining').value = remainingTotal;
+    const pct = totalHeld > 0 ? Math.round((attended / totalHeld) * 100) : 0;
+    document.getElementById('pct-display').innerHTML = pct + '%';
+    document.getElementById('req-marker').innerHTML = 'Required: ' + required + '%';
+    const barFill = document.getElementById('bar');
+    barFill.style.width = Math.min(100, pct) + '%';
+    const grandTotal = subjectTotalLimit;
+    const minNeededRaw = (required / 100) * grandTotal - attended;
+    const minNeeded = Math.max(0, Math.ceil(minNeededRaw));
+    const canSkip = Math.max(0, remainingTotal - minNeeded);
+    document.getElementById('can-skip').textContent = canSkip;
+    document.getElementById('must-attend').textContent = minNeeded > 0 ? minNeeded : 0;
+    const badge = document.getElementById('status-badge');
+    const msgBox = document.getElementById('message-box');
+    if (totalHeld === 0) {
+      badge.className = 'badge below';
+      badge.textContent = 'No data';
+      msgBox.innerHTML = '<i class="fas fa-chart-simple"></i> Enter total classes held to begin.';
+      barFill.style.background = '#ef4444';
+      return;
+    }
+    if (pct >= required) {
+      badge.className = 'badge on-track';
+      badge.textContent = '✓ On track';
+      barFill.style.background = '#4ade80';
+      if (remainingTotal === 0) {
+        msgBox.innerHTML = `<i class="fas fa-trophy"></i> Course completed! You've met the required attendance (${pct}%). Excellent work!`;
+      } else {
+        msgBox.innerHTML = `<i class="fas fa-check-circle"></i> You are meeting the requirement (${pct}%). You can afford to skip <strong>${canSkip}</strong> of the remaining <strong>${remainingTotal}</strong> classes.`;
+      }
+    } 
+    else if (minNeeded <= remainingTotal) {
+      badge.className = 'badge improve';
+      badge.textContent = '⚠️ Needs improvement';
+      barFill.style.background = '#fbbf24';
+      msgBox.innerHTML = `<i class="fas fa-chart-line"></i> You need to attend at least <strong>${minNeeded}</strong> of the remaining <strong>${remainingTotal}</strong> classes to reach ${required}% (current: ${pct}%).`;
+    } 
+    else {
+      badge.className = 'badge at-risk';
+      badge.textContent = '🔴 At risk';
+      barFill.style.background = '#f87171';
+      msgBox.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Even attending all <strong>${remainingTotal}</strong> remaining classes, you cannot reach ${required}%. Current = ${pct}%. Please consult your instructor immediately.`;
+    }
+  }
+  
+  // Theme Toggle Functionality
+  function initTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const body = document.body;
+    const toggleBtn = document.getElementById('themeToggle');
+    if (savedTheme === 'light') {
+      body.classList.add('light-theme');
+      toggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+    } else {
+      body.classList.remove('light-theme');
+      toggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+    }
+  }
+  function toggleTheme() {
+    const body = document.body;
+    const toggleBtn = document.getElementById('themeToggle');
+    if (body.classList.contains('light-theme')) {
+      body.classList.remove('light-theme');
+      localStorage.setItem('theme', 'dark');
+      toggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+    } else {
+      body.classList.add('light-theme');
+      localStorage.setItem('theme', 'light');
+      toggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
+    document.getElementById('themeToggle').addEventListener('click', (e) => {
+      e.preventDefault();
+      toggleTheme();
+    });
+    calc();
+  });
+</script>
+</body>
+</html>

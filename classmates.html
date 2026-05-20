@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>DAM | Classmates — G11 Directory</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: radial-gradient(circle at 10% 20%, rgba(10, 15, 28, 1) 0%, #03050b 100%);
+      color: #eef2ff;
+      line-height: 1.4;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    /* LIGHT THEME */
+    body.light-theme {
+      background: radial-gradient(circle at 10% 20%, #f0f4f8 0%, #d9e2ec 100%);
+      color: #1a202c;
+    }
+
+    body.light-theme .navbar {
+      background: rgba(255, 255, 255, 0.9);
+    }
+    body.light-theme .nav-links li a {
+      color: #1e293b;
+    }
+    body.light-theme .nav-links li a:hover,
+    body.light-theme .nav-links li a.active {
+      background: #ef4444;
+      color: white;
+    }
+    body.light-theme .new-footer {
+      background: #e2e8f0;
+    }
+    body.light-theme .table-wrapper {
+      background: rgba(255, 255, 255, 0.7);
+    }
+    body.light-theme .class-table th {
+      background: rgba(239, 68, 68, 0.9);
+      color: white;
+    }
+    body.light-theme .class-table td {
+      background: rgba(255, 255, 255, 0.7);
+      color: #1e293b;
+    }
+    body.light-theme .class-table tr:hover td {
+      background: rgba(239, 68, 68, 0.2);
+    }
+    body.light-theme .section-header td {
+      background: rgba(239, 68, 68, 0.3);
+      color: #b91c1c;
+    }
+    body.light-theme .search-bar input {
+      background: rgba(255, 255, 255, 0.8);
+      color: #1e293b;
+      border-color: rgba(239, 68, 68, 0.4);
+    }
+    body.light-theme .stats-badge {
+      background: rgba(239, 68, 68, 0.15);
+      color: #b91c1c;
+    }
+    body.light-theme .footer-flex a {
+      color: #334155;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    body.light-theme ::-webkit-scrollbar-track {
+      background: #cbd5e1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #ef4444;
+      border-radius: 10px;
+    }
+
+    .navbar {
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(3, 7, 18, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .dam-badge {
+      background: linear-gradient(145deg, #ef4444, #b91c1c);
+      width: 48px;
+      height: 48px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: white;
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.5);
+    }
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.7rem;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #fff, #ef4444);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .logo-text span {
+      color: #ef4444;
+      background: none;
+      background-clip: unset;
+    }
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      list-style: none;
+      align-items: center;
+    }
+    .nav-links li a {
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 40px;
+      font-weight: 500;
+      font-size: 0.85rem;
+      color: #cbd5e6;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-links li a i {
+      font-size: 0.9rem;
+    }
+    .nav-links li a:hover, .nav-links li a.active {
+      background: #ef4444;
+      color: white;
+      box-shadow: 0 4px 12px rgba(239,68,68,0.3);
+    }
+    .theme-toggle {
+      cursor: pointer;
+      background: rgba(239, 68, 68, 0.2);
+      border-radius: 40px;
+      padding: 0.5rem 1rem;
+      margin-left: 0.5rem;
+    }
+    .theme-toggle:hover {
+      background: #ef4444;
+    }
+
+    .main-container {
+      max-width: 1300px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .page-header {
+      margin-bottom: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1rem;
+    }
+    .header-left h1 {
+      font-size: 2.3rem;
+      font-weight: 700;
+      background: linear-gradient(145deg, #fff, #fca5a5);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+    body.light-theme .header-left h1 {
+      background: linear-gradient(145deg, #ef4444, #b91c1c);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+    .header-left p {
+      color: #9ca3af;
+      margin-top: 6px;
+    }
+    body.light-theme .header-left p {
+      color: #475569;
+    }
+    .stats-badge {
+      background: rgba(239, 68, 68, 0.2);
+      backdrop-filter: blur(8px);
+      padding: 0.5rem 1rem;
+      border-radius: 60px;
+      font-size: 0.85rem;
+      border: 1px solid #ef4444;
+    }
+    .search-bar {
+      margin-bottom: 1.5rem;
+    }
+    .search-bar input {
+      width: 100%;
+      max-width: 360px;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      border-radius: 60px;
+      padding: 0.7rem 1.2rem;
+      font-family: inherit;
+      color: white;
+      font-size: 0.9rem;
+      outline: none;
+      transition: 0.2s;
+    }
+    .table-wrapper {
+      background: rgba(18, 25, 45, 0.5);
+      backdrop-filter: blur(12px);
+      border-radius: 2rem;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      overflow-x: auto;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.4);
+    }
+    .class-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      min-width: 600px;
+    }
+    .class-table th, .class-table td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid rgba(239, 68, 68, 0.15);
+    }
+    .class-table th {
+      background: rgba(0, 0, 0, 0.5);
+      color: #facc15;
+      font-weight: 600;
+      font-size: 0.85rem;
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(4px);
+    }
+    .class-table tr:hover td {
+      background: rgba(239, 68, 68, 0.1);
+    }
+    .section-header td {
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      font-size: 0.9rem;
+      border-bottom: 1px solid #ef4444;
+    }
+    .class-table a {
+      color: #facc15;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.2s;
+    }
+    .class-table a:hover {
+      color: #ef4444;
+      text-decoration: underline;
+    }
+    .roll-number {
+      font-family: monospace;
+      font-weight: 500;
+      color: #cbd5e6;
+    }
+    body.light-theme .roll-number {
+      color: #1e293b;
+    }
+    body.light-theme .class-table a {
+      color: #b91c1c;
+    }
+
+    .new-footer {
+      margin-top: 3rem;
+      background: #03050b;
+      border-top: 1px solid #ef444430;
+      padding: 2rem 2rem 1.5rem;
+      transition: background 0.3s ease;
+    }
+    .footer-flex {
+      max-width: 1400px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    .footer-flex a {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 0.8rem;
+    }
+    .footer-flex a:hover {
+      color: #ef4444;
+    }
+    .copyright {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.7rem;
+      border-top: 1px solid #1e293b;
+      padding-top: 1rem;
+    }
+
+    @media (max-width: 760px) {
+      .nav-container {
+        flex-direction: column;
+      }
+      .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .class-table th, .class-table td {
+        padding: 10px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="logo-area">
+      <div class="dam-badge">D</div>
+      <div class="logo-text">DAM<span>//G11</span></div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="home.html"><i class="fas fa-cube"></i> Home</a></li>
+      <li><a href="timetable.html"><i class="fas fa-calendar-week"></i> Timetable</a></li>
+      <li><a href="classmates.html" class="active"><i class="fas fa-users"></i> Classmates</a></li>
+      <li><a href="resource.html"><i class="fas fa-database"></i> Resources</a></li>
+      <li><a href="sgpa.html"><i class="fas fa-chart-simple"></i> SGPA</a></li>
+      <li><a href="attandance.html"><i class="fas fa-percent"></i> Attendance</a></li>
+      <li><a href="poll.html"><i class="fas fa-calendar-check"></i> Poll</a></li>
+      <li><a href="settings.html"><i class="fas fa-sliders-h"></i> Settings</a></li>
+      <li><a href="#" id="themeToggle" class="theme-toggle"><i class="fas fa-moon"></i></a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="main-container">
+  <div class="page-header">
+    <div class="header-left">
+      <h1><i class="fas fa-user-friends" style="color:#ef4444;"></i> DAM G11 · Cohort Directory</h1>
+      <p>BE CSE (AI & ML) — Section G11 · Batch 2025-2029</p>
+    </div>
+    <div class="stats-badge" id="totalCountBadge">
+      <i class="fas fa-users"></i> <span id="studentCount">0</span> classmates
+    </div>
+  </div>
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="🔍 Search by name, roll number or email...">
+  </div>
+
+  <div class="table-wrapper">
+    <table class="class-table" id="studentTable">
+      <thead>
+        <tr><th>Roll Number</th><th>Full Name & Contact</th></tr>
+      </thead>
+      <tbody id="tableBody">
+      </tbody>
+    </table>
+  </div>
+</main>
+
+<footer class="new-footer">
+  <div class="footer-flex">
+    <div>
+      <h3 style="display: flex; align-items: center; gap: 8px;"><span style="background:#ef4444; width: 32px; height:32px; display: inline-flex; align-items:center; justify-content:center; border-radius: 12px;">D</span> DAM | G11 Nexus</h3>
+      <p style="font-size: 0.8rem; opacity: 0.7;">Data & Analytics Minds — connected cohort</p>
+    </div>
+    <div style="display: flex; gap: 2rem;">
+      <ul style="list-style: none;">
+        <li><a href="timetable.html">Schedule</a></li>
+        <li><a href="Events.html">Events</a></li>
+      </ul>
+      <ul style="list-style: none;">
+        <li><a href="settings.html">Settings</a></li>
+        <li><a href="resources.html">Resources</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="copyright">
+    Built with innovation & passion • 2026 DAM Social Hub • all rights reserved
+  </div>
+</footer>
+
+<script>
+  const studentsData = [
+    { roll: "2510993037", name: "AKSHAJ BANSAL", email: "akshaj3037.beai25@chitkara.edu.in", section: "FOUNDERS" },
+    { roll: "2510993084", name: "MOULIK JINDAL", email: "moulik3084.beai25@chitkara.edu.in", section: "FOUNDERS" },
+    { roll: "2510993085", name: "DARSH", email: "darsh3085.beai25@chitkara.edu.in", section: "FOUNDERS" },
+    { roll: "2510992989", name: "AKSHAT MEHTA", email: "akshat2989.beai25@chitkara.edu.in", section: "CR'S" },
+    { roll: "2510992999", name: "SHAGUN MAHESWARI", email: "shagun2999.beai25@chitkara.edu.in", section: "CR'S" },
+    { roll: "2510993019", name: "MANISH CHAHAL", email: "manish3019.beai25@chitkara.edu.in", section: "CR'S" },
+    { roll: "2510993042", name: "JAPNEET KAUR", email: "japneet3042.beai25@chitkara.edu.in", section: "CR'S" },
+    { roll: "2510992952", name: "KANWAR ARYA PARTAP SINGH", email: "kanwar2952.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510992953", name: "ANSHUL GOYAL", email: "anshul2953.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510992954", name: "SAKSHAM DHALL", email: "saksham2954.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510992956", name: "PURNIMA", email: "purnima2956.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510992957", name: "ARISH VERMA", email: "arish2957.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510992958", name: "VARUN CHAWLA", email: "varun2958.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510992959", name: "DAKSH BANSAL", email: "daksh2959.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510992961", name: "JUNAID GANDHI", email: "junaid2961.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510992962", name: "VANSHIKA", email: "vanshika2962.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510992963", name: "RONAK", email: "ronak2963.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510992965", name: "AARAV CHAUHAN", email: "aarav2965.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510992967", name: "AANWIKA GARG", email: "aanwika2967.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510992970", name: "GORI GOYAL", email: "gori2970.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510992971", name: "AAKASH SANGAR", email: "aakash2971.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510992973", name: "ANSH", email: "ansh2973.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510992975", name: "RUHANI", email: "ruhani2975.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510992976", name: "YUVRAJ DIXIT", email: "yuvraj2976.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510992977", name: "KUSHAL", email: "kushal2977.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510992981", name: "NEHAL MIDDHA", email: "nehal2981.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510992984", name: "SHOURYA RAJPOOT", email: "shourya2984.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510992986", name: "CHISHTI SINGLA", email: "chishti2986.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510992987", name: "MISTHI", email: "misthi2987.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510992992", name: "RIDHI GUPTA", email: "ridhi2992.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510992993", name: "ANKESH SINGH", email: "ankesh2993.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510992995", name: "MAGAN MEHTA", email: "magan2995.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510992998", name: "NIDHISH GABA", email: "nidhish2998.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993000", name: "SAKSHAM GULATI", email: "saksham3000.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993001", name: "OSHAN", email: "oshan3001.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993002", name: "HARSH KALIA", email: "harsh3002.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993003", name: "HARSHWARDHAN BHATT", email: "harshwardhan3003.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993010", name: "PRACHI", email: "prachi3010.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993011", name: "AARUSH KATHURIA", email: "aarush3011.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993012", name: "DEEPANSHI HANS", email: "deepanshi3012.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993014", name: "MOKSH RAPAL", email: "moksh3014.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993015", name: "PRIYANGEE YADAV", email: "priyangee3015.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993017", name: "MANVEER SINGH", email: "manveer3017.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993018", name: "PRANAV MISHRA", email: "pranav3018.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993021", name: "VISHISHT", email: "vishisht3021.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993023", name: "RISHITA SHARMA", email: "rishita3023.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993032", name: "ANGEL ARORA", email: "angel3032.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993033", name: "VANSHIKA", email: "vanshika3033.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993034", name: "AAYUSHI", email: "aayushi3034.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993036", name: "RIJUL", email: "rijul3036.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993040", name: "ARUSHI SINGLA", email: "arushi3040.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993045", name: "NITISH BHARDWAJ", email: "nitish3045.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993046", name: "VISHAV THAPAR", email: "vishav3046.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993048", name: "PRACHI", email: "prachi3048.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993049", name: "SANCHI", email: "sanchi3049.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993052", name: "SHIVENDER", email: "shivender3052.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993055", name: "REYAAN GARG", email: "reyaan3055.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993057", name: "GURVEER SINGH", email: "gurveer3057.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993058", name: "KESHAV", email: "keshav3058.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993059", name: "AARUSH JUNEJA", email: "aarush3059.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993061", name: "ANTARJOT SINGH", email: "antarjot3061.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993062", name: "SUJAL THAKUR", email: "sujal3062.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993063", name: "RAGHAV MEHTA", email: "raghav3063.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993064", name: "KESHAV KUMAR GIRDHAR", email: "keshav3064.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993066", name: "MANASVI THAPA", email: "manasvi3066.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993069", name: "JAIVIN", email: "jaivin3069.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993070", name: "NAVDEEP SINGH", email: "navdeep3070.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993072", name: "ADITI DHADWAL", email: "aditi3072.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993073", name: "VIRAJ KALRA", email: "viraj3073.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993075", name: "PRACHI VERMA", email: "prachi3075.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993076", name: "ROHIT MITTAL", email: "rohit3076.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993077", name: "NANDAN KALRA", email: "nandan3077.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993082", name: "SATAKSHI GOYAL", email: "satakshi3082.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993083", name: "PRANAV KUKREJA", email: "pranav3083.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993086", name: "RAGHAV GOYAL", email: "raghav3086.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993087", name: "KRITIKA", email: "kritika3087.beai25@chitkara.edu.in", section: "MEMBERS" },
+    { roll: "2510993088", name: "SAVNEET KAUR", email: "savneet3088.beai25@chitkara.edu.in", section: "MEMBERS" }
+  ];
+
+  function renderTable(filterText = "") {
+    const tbody = document.getElementById("tableBody");
+    tbody.innerHTML = "";
+    let lastSection = "";
+    let visibleCount = 0;
+    
+    studentsData.forEach(student => {
+      const searchLower = filterText.toLowerCase();
+      const matchRoll = student.roll.toLowerCase().includes(searchLower);
+      const matchName = student.name.toLowerCase().includes(searchLower);
+      const matchEmail = student.email.toLowerCase().includes(searchLower);
+      const matches = matchRoll || matchName || matchEmail;
+      
+      if (!matches && filterText !== "") return;
+      visibleCount++;
+      
+      if (student.section !== lastSection) {
+        lastSection = student.section;
+        const sectionRow = document.createElement("tr");
+        sectionRow.classList.add("section-header");
+        const td = document.createElement("td");
+        td.colSpan = 2;
+        td.innerHTML = `<i class="fas fa-tag"></i> ${student.section}  <span style="font-weight:normal; margin-left:8px; font-size:0.7rem;">📌</span>`;
+        sectionRow.appendChild(td);
+        tbody.appendChild(sectionRow);
+      }
+      
+      const row = document.createElement("tr");
+      const rollCell = document.createElement("td");
+      rollCell.className = "roll-number";
+      rollCell.textContent = student.roll;
+      const nameCell = document.createElement("td");
+      nameCell.innerHTML = `<strong>${student.name}</strong><br><a href="mailto:${student.email}"><i class="fas fa-envelope"></i> ${student.email}</a>`;
+      row.appendChild(rollCell);
+      row.appendChild(nameCell);
+      tbody.appendChild(row);
+    });
+    
+    document.getElementById("studentCount").innerText = visibleCount;
+    if (visibleCount === 0) {
+      const emptyRow = document.createElement("tr");
+      const emptyCell = document.createElement("td");
+      emptyCell.colSpan = 2;
+      emptyCell.style.textAlign = "center";
+      emptyCell.style.padding = "2rem";
+      emptyCell.innerHTML = '<i class="fas fa-user-slash"></i> No matching classmates found.';
+      emptyRow.appendChild(emptyCell);
+      tbody.appendChild(emptyRow);
+    }
+  }
+  
+  function initTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const body = document.body;
+    const toggleBtn = document.getElementById('themeToggle');
+    if (savedTheme === 'light') {
+      body.classList.add('light-theme');
+      toggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+    } else {
+      body.classList.remove('light-theme');
+      toggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+    }
+  }
+  function toggleTheme() {
+    const body = document.body;
+    const toggleBtn = document.getElementById('themeToggle');
+    if (body.classList.contains('light-theme')) {
+      body.classList.remove('light-theme');
+      localStorage.setItem('theme', 'dark');
+      toggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+    } else {
+      body.classList.add('light-theme');
+      localStorage.setItem('theme', 'light');
+      toggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+  }
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
+    document.getElementById('themeToggle').addEventListener('click', (e) => {
+      e.preventDefault();
+      toggleTheme();
+    });
+    renderTable("");
+    const searchInput = document.getElementById("searchInput");
+    searchInput.addEventListener("input", (e) => {
+      renderTable(e.target.value);
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>DAM | G11 Poll – One Student, One Vote</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: radial-gradient(circle at 10% 20%, rgba(10, 15, 28, 1) 0%, #03050b 100%);
+      color: #eef2ff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+    }
+
+    .poll-container {
+      max-width: 650px;
+      width: 100%;
+      background: rgba(18, 25, 45, 0.7);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      border-radius: 2rem;
+      padding: 2rem;
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.5);
+      transition: all 0.25s ease;
+    }
+
+    .poll-container:hover {
+      border-color: #ef4444;
+    }
+
+    .dam-header {
+      text-align: center;
+      margin-bottom: 1.8rem;
+    }
+
+    .dam-logo {
+      background: linear-gradient(145deg, #ef4444, #b91c1c);
+      width: 60px;
+      height: 60px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      font-size: 2rem;
+      font-weight: 800;
+      color: white;
+      box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+    }
+
+    .dam-header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff, #fca5a5);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .welcome-name {
+      background: rgba(239, 68, 68, 0.15);
+      padding: 0.4rem 1rem;
+      border-radius: 60px;
+      display: inline-block;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border: 1px solid #ef4444;
+    }
+
+    .input-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #cbd5e6;
+      margin-bottom: 6px;
+    }
+
+    .input-group input {
+      width: 100%;
+      background: rgba(10, 15, 28, 0.7);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 60px;
+      padding: 0.8rem 1rem;
+      font-family: 'Space Grotesk', monospace;
+      font-size: 0.9rem;
+      color: white;
+      outline: none;
+    }
+
+    .input-group input:focus {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+    }
+
+    .login-btn, .logout-btn {
+      width: 100%;
+      background: #ef4444;
+      border: none;
+      padding: 0.8rem;
+      border-radius: 60px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: 0.2s;
+    }
+
+    .login-btn:hover, .logout-btn:hover {
+      background: #b91c1c;
+      transform: scale(1.01);
+    }
+
+    .logout-btn {
+      background: transparent;
+      border: 1px solid #ef4444;
+      margin-top: 1rem;
+    }
+
+    .message {
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 0.85rem;
+      min-height: 40px;
+    }
+
+    .poll-question {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .poll-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .poll-btn {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid #ef4444;
+      border-radius: 60px;
+      padding: 0.7rem 1rem;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+      text-align: left;
+      padding-left: 1.2rem;
+    }
+
+    .poll-btn:hover {
+      background: #ef4444;
+      transform: translateX(5px);
+    }
+
+    .results-card {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .vote-count {
+      background: #1e293b;
+      padding: 0.2rem 0.6rem;
+      border-radius: 60px;
+    }
+
+    .already-voted-msg {
+      background: #0f172a;
+      padding: 0.6rem;
+      border-radius: 1rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    hr {
+      margin: 1rem 0;
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+  </style>
+</head>
+<body>
+
+<div class="poll-container" id="appContainer"></div>
+
+<script>
+  // ---------- STUDENT DATABASE (ID, password, FULL NAME) ----------
+  const students = [
+    { id: "2510992952", pass: "Kanwar@2952", name: "KANWAR ARYA PARTAP SINGH" },
+    { id: "2510992953", pass: "Anshul@2953", name: "ANSHUL GOYAL" },
+    { id: "2510992954", pass: "Saksham@2954", name: "SAKSHAM DHALL" },
+    { id: "2510992956", pass: "Purnima@2956", name: "PURNIMA" },
+    { id: "2510992957", pass: "Arish@2957", name: "ARISH VERMA" },
+    { id: "2510992958", pass: "Varun@2958", name: "VARUN CHAWLA" },
+    { id: "2510992959", pass: "Daksh@2959", name: "DAKSH BANSAL" },
+    { id: "2510992961", pass: "Junaid@2961", name: "JUNAID GANDHI" },
+    { id: "2510992962", pass: "Vanshika@2962", name: "VANSHIKA" },
+    { id: "2510992963", pass: "Ronak@2963", name: "RONAK" },
+    { id: "2510992965", pass: "Aarav@2965", name: "AARAV CHAUHAN" },
+    { id: "2510992967", pass: "Aanwika@2967", name: "AANWIKA GARG" },
+    { id: "2510992970", pass: "Gori@2970", name: "GORI GOYAL" },
+    { id: "2510992971", pass: "Aakash@2971", name: "AAKASH SANGAR" },
+    { id: "2510992973", pass: "Ansh@2973", name: "ANSH" },
+    { id: "2510992975", pass: "Ruhani@2975", name: "RUHANI" },
+    { id: "2510992976", pass: "Yuvraj@2976", name: "YUVRAJ DIXIT" },
+    { id: "2510992977", pass: "Kushal@2977", name: "KUSHAL" },
+    { id: "2510992981", pass: "Nehal@2981", name: "NEHAL MIDDHA" },
+    { id: "2510992984", pass: "Shourya@2984", name: "SHOURYA RAJPOOT" },
+    { id: "2510992986", pass: "Chishti@2986", name: "CHISHTI SINGLA" },
+    { id: "2510992987", pass: "Misthi@2987", name: "MISTHI" },
+    { id: "2510992989", pass: "Akshat@2989", name: "AKSHAT MEHTA" },
+    { id: "2510992992", pass: "Ridhi@2992", name: "RIDHI GUPTA" },
+    { id: "2510992993", pass: "Ankesh@2993", name: "ANKESH SINGH" },
+    { id: "2510992995", pass: "Magan@2995", name: "MAGAN MEHTA" },
+    { id: "2510992998", pass: "Nidhish@2998", name: "NIDHISH GABA" },
+    { id: "2510992999", pass: "Shagun@2999", name: "SHAGUN MAHESWARI" },
+    { id: "2510993000", pass: "Saksham@3000", name: "SAKSHAM GULATI" },
+    { id: "2510993001", pass: "Oshan@3001", name: "OSHAN" },
+    { id: "2510993002", pass: "Harsh@3002", name: "HARSH KALIA" },
+    { id: "2510993003", pass: "Harshwardhan@3003", name: "HARSHWARDHAN BHATT" },
+    { id: "2510993010", pass: "Prachi@3010", name: "PRACHI" },
+    { id: "2510993011", pass: "Aarush@3011", name: "AARUSH KATHURIA" },
+    { id: "2510993012", pass: "Deepanshi@3012", name: "DEEPANSHI HANS" },
+    { id: "2510993014", pass: "Moksh@3014", name: "MOKSH RAPAL" },
+    { id: "2510993015", pass: "Priyangee@3015", name: "PRIYANGEE YADAV" },
+    { id: "2510993017", pass: "Manveer@3017", name: "MANVEER SINGH" },
+    { id: "2510993018", pass: "Pranav@3018", name: "PRANAV MISHRA" },
+    { id: "2510993019", pass: "Manish@3019", name: "MANISH CHAHAL" },
+    { id: "2510993021", pass: "Vishisht@3021", name: "VISHISHT" },
+    { id: "2510993023", pass: "Rishita@3023", name: "RISHITA SHARMA" },
+    { id: "2510993032", pass: "Angel@3032", name: "ANGEL ARORA" },
+    { id: "2510993033", pass: "Vanshika@3033", name: "VANSHIKA" },
+    { id: "2510993034", pass: "Aayushi@3034", name: "AAYUSHI" },
+    { id: "2510993036", pass: "Rijul@3036", name: "RIJUL" },
+    { id: "2510993037", pass: "Akshaj@3037", name: "AKSHAJ BANSAL" },
+    { id: "2510993040", pass: "Arushi@3040", name: "ARUSHI SINGLA" },
+    { id: "2510993042", pass: "Japneet@3042", name: "JAPNEET KAUR" },
+    { id: "2510993045", pass: "Nitish@3045", name: "NITISH BHARDWAJ" },
+    { id: "2510993046", pass: "Vishav@3046", name: "VISHAV THAPAR" },
+    { id: "2510993048", pass: "Prachi@3048", name: "PRACHI" },
+    { id: "2510993049", pass: "Sanchi@3049", name: "SANCHI" },
+    { id: "2510993052", pass: "Shivender@3052", name: "SHIVENDER" },
+    { id: "2510993055", pass: "Reyaan@3055", name: "REYAAN GARG" },
+    { id: "2510993057", pass: "Gurveer@3057", name: "GURVEER SINGH" },
+    { id: "2510993058", pass: "Keshav@3058", name: "KESHAV" },
+    { id: "2510993059", pass: "Aarush@3059", name: "AARUSH JUNEJA" },
+    { id: "2510993061", pass: "Antarjot@3061", name: "ANTARJOT SINGH" },
+    { id: "2510993062", pass: "Sujal@3062", name: "SUJAL THAKUR" },
+    { id: "2510993063", pass: "Raghav@3063", name: "RAGHAV MEHTA" },
+    { id: "2510993064", pass: "Keshav@3064", name: "KESHAV KUMAR GIRDHAR" },
+    { id: "2510993066", pass: "Manasvi@3066", name: "MANASVI THAPA" },
+    { id: "2510993069", pass: "Jaivin@3069", name: "JAIVIN" },
+    { id: "2510993070", pass: "Navdeep@3070", name: "NAVDEEP SINGH" },
+    { id: "2510993072", pass: "Aditi@3072", name: "ADITI DHADWAL" },
+    { id: "2510993073", pass: "Viraj@3073", name: "VIRAJ KALRA" },
+    { id: "2510993075", pass: "Prachi@3075", name: "PRACHI VERMA" },
+    { id: "2510993076", pass: "Rohit@3076", name: "ROHIT MITTAL" },
+    { id: "2510993077", pass: "Nandan@3077", name: "NANDAN KALRA" },
+    { id: "2510993082", pass: "Satakshi@3082", name: "SATAKSHI GOYAL" },
+    { id: "2510993083", pass: "Pranav@3083", name: "PRANAV KUKREJA" },
+    { id: "2510993084", pass: "Moulik@3084", name: "MOULIK JINDAL" },
+    { id: "2510993085", pass: "Darsh@3085", name: "DARSH" },
+    { id: "2510993086", pass: "Raghav@3086", name: "RAGHAV GOYAL" },
+    { id: "2510993087", pass: "Kritika@3087", name: "KRITIKA" },
+    { id: "2510993088", pass: "Savneet@3088", name: "SAVNEET KAUR" }
+  ];
+
+  // Poll configuration
+  const POLL_STORAGE_KEY = 'dam_g11_poll_votes';
+  const SUBJECTS = ['FCP', 'FAA', 'FEE', 'OS & Linux', 'DM'];
+  const POLL_QUESTION = "Which subject feels most challenging this semester?";
+
+  function loadPollData() {
+    const defaultData = { votes: {}, totals: {} };
+    SUBJECTS.forEach(s => { defaultData.totals[s] = 0; });
+    const stored = localStorage.getItem(POLL_STORAGE_KEY);
+    if (!stored) return defaultData;
+    try {
+      return JSON.parse(stored);
+    } catch(e) { return defaultData; }
+  }
+
+  function savePollData(data) {
+    localStorage.setItem(POLL_STORAGE_KEY, JSON.stringify(data));
+  }
+
+  // Session management (store both ID and name)
+  function getCurrentStudent() {
+    const id = sessionStorage.getItem('poll_logged_id');
+    const name = sessionStorage.getItem('poll_logged_name');
+    if (id && name) return { id, name };
+    return null;
+  }
+
+  function setCurrentStudent(student) {
+    if (student) {
+      sessionStorage.setItem('poll_logged_id', student.id);
+      sessionStorage.setItem('poll_logged_name', student.name);
+    } else {
+      sessionStorage.removeItem('poll_logged_id');
+      sessionStorage.removeItem('poll_logged_name');
+    }
+  }
+
+  function hasVoted(studentId, pollData) {
+    return pollData.votes[studentId] !== undefined;
+  }
+
+  function castVote(studentId, option) {
+    let pollData = loadPollData();
+    if (pollData.votes[studentId]) return false;
+    pollData.votes[studentId] = option;
+    pollData.totals[option] = (pollData.totals[option] || 0) + 1;
+    savePollData(pollData);
+    return true;
+  }
+
+  function renderApp() {
+    const container = document.getElementById('appContainer');
+    const current = getCurrentStudent();
+
+    if (!current) {
+      // Login screen
+      container.innerHTML = `
+        <div class="dam-header">
+          <div class="dam-logo">D</div>
+          <h1>DAM // G11 Poll</h1>
+          <p>one student · one vote</p>
+        </div>
+        <form id="loginForm">
+          <div class="input-group">
+            <label><i class="fas fa-id-card"></i> Student ID</label>
+            <input type="text" id="studentId" placeholder="e.g., 2510993037" autocomplete="off" required>
+          </div>
+          <div class="input-group">
+            <label><i class="fas fa-lock"></i> Password</label>
+            <input type="password" id="password" placeholder="Enter password" required>
+          </div>
+          <button type="submit" class="login-btn"><i class="fas fa-arrow-right-to-bracket"></i> Login</button>
+          <div id="loginMessage" class="message"></div>
+        </form>
+      `;
+
+      const form = document.getElementById('loginForm');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const id = document.getElementById('studentId').value.trim();
+        const pass = document.getElementById('password').value;
+        const found = students.find(s => s.id === id && s.pass === pass);
+        const msgDiv = document.getElementById('loginMessage');
+        if (found) {
+          setCurrentStudent({ id: found.id, name: found.name });
+          msgDiv.style.color = "#4ade80";
+          msgDiv.innerHTML = '<i class="fas fa-check-circle"></i> Login successful. Loading poll...';
+          setTimeout(() => renderApp(), 800);
+        } else {
+          msgDiv.style.color = "#f87171";
+          msgDiv.innerHTML = '<i class="fas fa-ban"></i> Invalid ID or password.';
+        }
+      });
+    } else {
+      // Logged in – show poll with student name at top
+      const pollData = loadPollData();
+      const userVoted = hasVoted(current.id, pollData);
+      const totalVotes = Object.keys(pollData.votes).length;
+
+      const resultsHtml = SUBJECTS.map(sub => {
+        const count = pollData.totals[sub] || 0;
+        const percent = totalVotes === 0 ? 0 : ((count / totalVotes) * 100).toFixed(1);
+        return `
+          <div class="result-item">
+            <span>${sub}</span>
+            <span class="vote-count">${count} vote${count !== 1 ? 's' : ''} (${percent}%)</span>
+          </div>
+        `;
+      }).join('');
+
+      let pollBody = '';
+      if (userVoted) {
+        pollBody = `
+          <div class="already-voted-msg">
+            <i class="fas fa-check-circle" style="color:#4ade80;"></i> You have already voted. Thank you!
+          </div>
+          <div class="results-card">
+            <strong>📊 Current results (${totalVotes} vote${totalVotes !== 1 ? 's' : ''})</strong>
+            ${resultsHtml}
+          </div>
+        `;
+      } else {
+        const optionsButtons = SUBJECTS.map(sub => `
+          <button class="poll-btn" data-subject="${sub}">${sub}</button>
+        `).join('');
+        pollBody = `
+          <div class="poll-question">${POLL_QUESTION}</div>
+          <div class="poll-options" id="pollOptions">
+            ${optionsButtons}
+          </div>
+          <div class="results-card">
+            <strong>📊 Live results (${totalVotes} vote${totalVotes !== 1 ? 's' : ''})</strong>
+            ${resultsHtml}
+          </div>
+        `;
+      }
+
+      container.innerHTML = `
+        <div class="dam-header">
+          <div class="dam-logo">D</div>
+          <h1>DAM // G11 Poll</h1>
+          <div class="welcome-name">
+            <i class="fas fa-user-graduate"></i> ${current.name} (${current.id})
+          </div>
+        </div>
+        ${pollBody}
+        <hr>
+        <button id="logoutBtn" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      `;
+
+      if (!userVoted) {
+        const btns = document.querySelectorAll('.poll-btn');
+        btns.forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const subject = btn.getAttribute('data-subject');
+            const success = castVote(current.id, subject);
+            if (success) {
+              const toast = document.createElement('div');
+              toast.textContent = `✓ You voted for ${subject}. Thanks!`;
+              toast.style.cssText = 'position:fixed; bottom:20px; right:20px; background:#ef4444; padding:0.5rem 1rem; border-radius:60px; z-index:999; font-size:0.8rem;';
+              document.body.appendChild(toast);
+              setTimeout(() => toast.remove(), 2000);
+              renderApp();
+            } else {
+              alert("You have already voted!");
+            }
+          });
+        });
+      }
+
+      document.getElementById('logoutBtn').addEventListener('click', () => {
+        setCurrentStudent(null);
+        renderApp();
+      });
+    }
+  }
+
+  renderApp();
+</script>
+</body>
+</html>
